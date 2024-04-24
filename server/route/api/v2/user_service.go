@@ -49,6 +49,13 @@ func (s *APIV2Service) ListUsers(ctx context.Context, _ *apiv2pb.ListUsersReques
 }
 
 func (s *APIV2Service) SearchUsers(ctx context.Context, request *apiv2pb.SearchUsersRequest) (*apiv2pb.SearchUsersResponse, error) {
+	user, err := getCurrentUser(ctx, s.Store)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "failed to get current user: %v", err)
+	}
+	if user == nil {
+		return nil, status.Errorf(codes.PermissionDenied, "permission denied")
+	}
 	if request.Filter == "" {
 		return nil, status.Errorf(codes.InvalidArgument, "filter is empty")
 	}
