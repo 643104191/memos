@@ -1,6 +1,6 @@
 import { Button, Input } from "@mui/joy";
 import { ClientError } from "nice-grpc-web";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import AppearanceSelect from "@/components/AppearanceSelect";
@@ -13,10 +13,20 @@ import { useUserStore, useWorkspaceSettingStore } from "@/store/v1";
 import { WorkspaceGeneralSetting } from "@/types/proto/api/v2/workspace_setting_service";
 import { WorkspaceSettingKey } from "@/types/proto/store/workspace_setting";
 import { useTranslate } from "@/utils/i18n";
+import useCurrentUser from "@/hooks/useCurrentUser";
+import { Routes } from "@/router";
 
 const SignUp = () => {
   const t = useTranslate();
   const navigateTo = useNavigateTo();
+  const currentUser = useCurrentUser();
+
+  useEffect(() => {
+    if (currentUser) {
+      navigateTo(Routes.HOME);
+    }
+  }, []);
+
   const commonContext = useCommonContext();
   const workspaceSettingStore = useWorkspaceSettingStore();
   const userStore = useUserStore();

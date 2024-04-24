@@ -15,10 +15,20 @@ import { IdentityProvider, IdentityProvider_Type } from "@/types/proto/api/v2/id
 import { WorkspaceGeneralSetting } from "@/types/proto/api/v2/workspace_setting_service";
 import { WorkspaceSettingKey } from "@/types/proto/store/workspace_setting";
 import { useTranslate } from "@/utils/i18n";
+import useCurrentUser from "@/hooks/useCurrentUser";
+import { Routes } from "@/router";
 
 const SignIn = () => {
   const t = useTranslate();
   const navigateTo = useNavigateTo();
+  const currentUser = useCurrentUser();
+
+  useEffect(() => {
+    if (currentUser) {
+      navigateTo(Routes.HOME);
+    }
+  }, []);
+
   const commonContext = useCommonContext();
   const workspaceSettingStore = useWorkspaceSettingStore();
   const userStore = useUserStore();
