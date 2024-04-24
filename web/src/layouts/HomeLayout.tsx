@@ -18,15 +18,15 @@ const HomeLayout = () => {
   const currentUser = useCurrentUser();
   const [collapsed, setCollapsed] = useLocalStorage<boolean>("navigation-collapsed", false);
 
-  // Redirect to explore page if not logged in.
+  // Redirect to auth page if not logged in.
   useEffect(() => {
     if (
       !currentUser &&
-      ([Routes.HOME, Routes.TIMELINE, Routes.RESOURCES, Routes.INBOX, Routes.ARCHIVED, Routes.SETTING] as string[]).includes(
+      ([Routes.HOME, Routes.TIMELINE, Routes.RESOURCES, Routes.INBOX, Routes.ARCHIVED, Routes.SETTING, Routes.EXPLORE] as string[]).includes(
         location.pathname,
       )
     ) {
-      navigateTo(Routes.EXPLORE);
+      navigateTo(Routes.AUTH);
     }
   }, []);
 
