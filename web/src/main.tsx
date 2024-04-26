@@ -17,6 +17,13 @@ import store from "./store";
 import theme from "./theme";
 
 (async () => {
+  if (!WebAssembly.instantiateStreaming) { // polyfill
+    WebAssembly.instantiateStreaming = async (resp, importObject) => {
+      const source = await (await resp).arrayBuffer();
+      return await WebAssembly.instantiate(source, importObject);
+    };
+  }
+
   const go = new window.Go();
   const { instance } = await WebAssembly.instantiateStreaming(fetch(gomarkWasm), go.importObject);
   go.run(instance);
