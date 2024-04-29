@@ -61,15 +61,16 @@ export function ParseBlock(tokens: Token[]): [Node[], Error | null] {
   return ParseBlockWithParsers(tokens, defaultBlockParsers);
 }
 
-export function ParseBlockWithParsers(tokens: Token[], blockParsers: BlockParser[]): [Node[], Error | null] {
+export function ParseBlockWithParsers(tokensParams: Token[], blockParsers: BlockParser[]): [Node[], Error | null] {
   const nodes: Node[] = [];
   let prevNode: Node | null = null;
+  const tokens = tokensParams.slice();
   while (tokens.length > 0) {
     for (const blockParser of blockParsers) {
       const [node, size] = blockParser.Match(tokens);
       if (node !== null && size !== 0) {
         // Consume matched tokens.
-        tokens = tokens.slice(size);
+        tokens.splice(0, size);
         if (prevNode) {
           prevNode.SetNextSibling(node);
           node.SetPrevSibling(prevNode);
@@ -108,9 +109,10 @@ export function ParseInline(tokens: Token[]): [Node[], Error | null] {
   return ParseInlineWithParsers(tokens, defaultInlineParsers);
 }
 
-export function ParseInlineWithParsers(tokens: Token[], inlineParsers: InlineParser[]): [Node[], Error | null] {
+export function ParseInlineWithParsers(tokensParams: Token[], inlineParsers: InlineParser[]): [Node[], Error | null] {
   const nodes: Node[] = [];
   let prevNode: Node | null = null;
+  const tokens = tokensParams.slice();
   while (tokens.length > 0) {
     for (const inlineParser of inlineParsers) {
       const [node, size] = inlineParser.Match(tokens);
