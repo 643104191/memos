@@ -1,32 +1,32 @@
 export enum TokenType {
   // Special character tokens.
-  Underscore         = "_",
-  Asterisk           = "*",
-  PoundSign          = "#",
-  Backtick           = "`",
-  LeftSquareBracket  = "[",
+  Underscore = "_",
+  Asterisk = "*",
+  PoundSign = "#",
+  Backtick = "`",
+  LeftSquareBracket = "[",
   RightSquareBracket = "]",
-  LeftParenthesis    = "(",
-  RightParenthesis   = ")",
-  ExclamationMark    = "!",
-  QuestionMark       = "?",
-  Tilde              = "~",
-  Hyphen             = "-",
-  PlusSign           = "+",
-  Dot                = ".",
-  LessThan           = "<",
-  GreaterThan        = ">",
-  DollarSign         = "$",
-  EqualSign          = "=",
-  Pipe               = "|",
-  Colon              = ":",
-  Caret              = "^",
-  Backslash          = "\\",
-  NewLine            = "\n",
-  Space              = " ",
+  LeftParenthesis = "(",
+  RightParenthesis = ")",
+  ExclamationMark = "!",
+  QuestionMark = "?",
+  Tilde = "~",
+  Hyphen = "-",
+  PlusSign = "+",
+  Dot = ".",
+  LessThan = "<",
+  GreaterThan = ">",
+  DollarSign = "$",
+  EqualSign = "=",
+  Pipe = "|",
+  Colon = ":",
+  Caret = "^",
+  Backslash = "\\",
+  NewLine = "\n",
+  Space = " ",
   // Text based tokens.
-  Number             = "number",
-  Text               = "",
+  Number = "number",
+  Text = "",
 }
 
 export class Token {
@@ -36,8 +36,8 @@ export class Token {
     this.Type = tp;
     this.Value = text;
   }
-  string() {
-    return this.Value
+  String() {
+    return this.Value;
   }
 }
 
@@ -45,79 +45,79 @@ export function Tokenize(text: string): Token[] {
   const tokens: Token[] = [];
   for (const c of text) {
     switch (c) {
-      case '_':
+      case "_":
         tokens.push(new Token(TokenType.Underscore, "_"));
         break;
-      case '*':
+      case "*":
         tokens.push(new Token(TokenType.Asterisk, "*"));
         break;
-      case '#':
+      case "#":
         tokens.push(new Token(TokenType.PoundSign, "#"));
         break;
-      case '`':
+      case "`":
         tokens.push(new Token(TokenType.Backtick, "`"));
         break;
-      case '[':
+      case "[":
         tokens.push(new Token(TokenType.LeftSquareBracket, "["));
         break;
-      case ']':
+      case "]":
         tokens.push(new Token(TokenType.RightSquareBracket, "]"));
         break;
-      case '(':
+      case "(":
         tokens.push(new Token(TokenType.LeftParenthesis, "("));
         break;
-      case ')':
+      case ")":
         tokens.push(new Token(TokenType.RightParenthesis, ")"));
         break;
-      case '!':
+      case "!":
         tokens.push(new Token(TokenType.ExclamationMark, "!"));
         break;
-      case '?':
+      case "?":
         tokens.push(new Token(TokenType.QuestionMark, "?"));
         break;
-      case '~':
+      case "~":
         tokens.push(new Token(TokenType.Tilde, "~"));
         break;
-      case '-':
+      case "-":
         tokens.push(new Token(TokenType.Hyphen, "-"));
         break;
-      case '<':
+      case "<":
         tokens.push(new Token(TokenType.LessThan, "<"));
         break;
-      case '>':
+      case ">":
         tokens.push(new Token(TokenType.GreaterThan, ">"));
         break;
-      case '+':
+      case "+":
         tokens.push(new Token(TokenType.PlusSign, "+"));
         break;
-      case '.':
+      case ".":
         tokens.push(new Token(TokenType.Dot, "."));
         break;
-      case '$':
+      case "$":
         tokens.push(new Token(TokenType.DollarSign, "$"));
         break;
-      case '=':
+      case "=":
         tokens.push(new Token(TokenType.EqualSign, "="));
         break;
-      case '|':
+      case "|":
         tokens.push(new Token(TokenType.Pipe, "|"));
         break;
-      case ':':
+      case ":":
         tokens.push(new Token(TokenType.Colon, ":"));
         break;
-      case '^':
+      case "^":
         tokens.push(new Token(TokenType.Caret, "^"));
         break;
-      case '\\':
+      case "\\":
         tokens.push(new Token(TokenType.Backslash, ""));
         break;
-      case '\n':
+      case "\n":
         tokens.push(new Token(TokenType.NewLine, "\n"));
         break;
-      case ' ':
+      case " ":
         tokens.push(new Token(TokenType.Space, " "));
         break;
-      default:
+      default: {
         const prevToken: Token | undefined = tokens.length > 0 ? tokens[tokens.length - 1] : void 0;
         const numberVal = Number(c);
         const isNumber = !Number.isNaN(numberVal) && numberVal >= 0 && numberVal <= 9;
@@ -132,6 +132,7 @@ export function Tokenize(text: string): Token[] {
         } else {
           tokens.push(new Token(TokenType.Text, c));
         }
+      }
     }
   }
   return tokens;
@@ -140,7 +141,7 @@ export function Tokenize(text: string): Token[] {
 export function Stringify(tokens: Token[]): string {
   let text = "";
   for (const token of tokens) {
-    text += token.string();
+    text += token.String();
   }
   return text;
 }

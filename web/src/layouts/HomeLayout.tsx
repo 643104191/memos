@@ -22,9 +22,9 @@ const HomeLayout = () => {
   useEffect(() => {
     if (
       !currentUser &&
-      ([Routes.HOME, Routes.TIMELINE, Routes.RESOURCES, Routes.INBOX, Routes.ARCHIVED, Routes.SETTING, Routes.EXPLORE] as string[]).includes(
-        location.pathname,
-      )
+      (
+        [Routes.HOME, Routes.TIMELINE, Routes.RESOURCES, Routes.INBOX, Routes.ARCHIVED, Routes.SETTING, Routes.EXPLORE] as string[]
+      ).includes(location.pathname)
     ) {
       navigateTo(Routes.AUTH);
     }

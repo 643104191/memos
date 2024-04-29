@@ -1,4 +1,4 @@
-import { NodeType, Node, BaseNode } from './ast'
+import { NodeType, Node, BaseNode } from "./ast";
 
 class BaseBlock extends BaseNode {}
 
@@ -13,47 +13,47 @@ export class LineBreak extends BaseBlock implements Node {
 }
 
 export class Paragraph extends BaseBlock implements Node {
-  Children: Node[]
+  Children: Node[];
   constructor({ Children = [] }: { Children: Node[] }) {
-    super()
-    this.Children = Children
+    super();
+    this.Children = Children;
   }
   Type(): NodeType {
-      return NodeType.ParagraphNode;
+    return NodeType.ParagraphNode;
   }
 
   Restore(): string {
-      let result = "";
-      for (const child of this.Children) {
-          result += child.Restore();
-      }
-      return result;
+    let result = "";
+    for (const child of this.Children) {
+      result += child.Restore();
+    }
+    return result;
   }
 }
 
 export class CodeBlock extends BaseBlock implements Node {
-  Language: string
-  Content: string
+  Language: string;
+  Content: string;
   constructor({ Language = "", Content = "" }: { Language?: string; Content?: string } = {}) {
-    super()
-    this.Language = Language
-    this.Content = Content
+    super();
+    this.Language = Language;
+    this.Content = Content;
   }
   Type(): NodeType {
     return NodeType.CodeBlockNode;
   }
   Restore(): string {
-    return "```" + this.Language + "\n" + this.Content + "\n```"
+    return "```" + this.Language + "\n" + this.Content + "\n```";
   }
 }
 
 export class Heading extends BaseBlock implements Node {
-  Level: number
-  Children: Node[]
+  Level: number;
+  Children: Node[];
   constructor({ Children, Level }: { Children: Node[]; Level: number }) {
-    super()
-    this.Children = Children
-    this.Level = Level
+    super();
+    this.Children = Children;
+    this.Level = Level;
   }
   Type(): NodeType {
     return NodeType.HeadingNode;
@@ -68,24 +68,24 @@ export class Heading extends BaseBlock implements Node {
 }
 
 export class HorizontalRule extends BaseBlock implements Node {
-  Symbol
+  Symbol;
   constructor({ Symbol }: { Symbol: string }) {
-    super()
-    this.Symbol = Symbol
+    super();
+    this.Symbol = Symbol;
   }
   Type(): NodeType {
     return NodeType.HorizontalRuleNode;
   }
   Restore(): string {
-    return this.Symbol.repeat(3)
+    return this.Symbol.repeat(3);
   }
 }
 
 export class Blockquote extends BaseBlock implements Node {
-  Children: Node[] = []
+  Children: Node[] = [];
   constructor({ Children }: { Children: Node[] }) {
-    super()
-    this.Children = Children
+    super();
+    this.Children = Children;
   }
   Type(): NodeType {
     return NodeType.BlockquoteNode;
@@ -100,14 +100,14 @@ export class Blockquote extends BaseBlock implements Node {
 }
 
 export class OrderedList extends BaseBlock implements Node {
-  Number: string
-  Indent: number = 0
-  Children: Node[]
+  Number: string;
+  Indent: number = 0;
+  Children: Node[];
   constructor({ Number, Indent = 0, Children }: { Number: string; Indent?: number; Children: Node[] }) {
-    super()
-    this.Number = Number
-    this.Indent = Indent
-    this.Children = Children
+    super();
+    this.Number = Number;
+    this.Indent = Indent;
+    this.Children = Children;
   }
   Type(): NodeType {
     return NodeType.OrderedListNode;
@@ -117,19 +117,19 @@ export class OrderedList extends BaseBlock implements Node {
     for (const child of this.Children) {
       result += child.Restore();
     }
-    return `${" ".repeat(this.Indent)}${this.Number}. ${result}`
+    return `${" ".repeat(this.Indent)}${this.Number}. ${result}`;
   }
 }
 
 export class UnorderedList extends BaseBlock implements Node {
-  Symbol: string
-  Indent: number = 0
-  Children: Node[]
+  Symbol: string;
+  Indent: number = 0;
+  Children: Node[];
   constructor({ Symbol, Indent = 0, Children }: { Symbol: string; Indent?: number; Children: Node[] }) {
-    super()
-    this.Symbol = Symbol
-    this.Indent = Indent
-    this.Children = Children
+    super();
+    this.Symbol = Symbol;
+    this.Indent = Indent;
+    this.Children = Children;
   }
   Type(): NodeType {
     return NodeType.UnorderedListNode;
@@ -139,21 +139,21 @@ export class UnorderedList extends BaseBlock implements Node {
     for (const child of this.Children) {
       result += child.Restore();
     }
-    return `${" ".repeat(this.Indent)}${this.Symbol} ${result}`
+    return `${" ".repeat(this.Indent)}${this.Symbol} ${result}`;
   }
 }
 
 export class TaskList extends BaseBlock implements Node {
-  Symbol: string
-  Indent: number = 0
-  Complete: boolean
-  Children: Node[]
+  Symbol: string;
+  Indent: number = 0;
+  Complete: boolean;
+  Children: Node[];
   constructor({ Symbol, Indent = 0, Complete, Children }: { Symbol: string; Indent?: number; Complete: boolean; Children: Node[] }) {
-    super()
-    this.Symbol = Symbol
-    this.Indent = Indent
-    this.Complete = Complete
-    this.Children = Children
+    super();
+    this.Symbol = Symbol;
+    this.Indent = Indent;
+    this.Complete = Complete;
+    this.Children = Children;
   }
   Type(): NodeType {
     return NodeType.TaskListNode;
@@ -168,10 +168,10 @@ export class TaskList extends BaseBlock implements Node {
 }
 
 export class MathBlock extends BaseBlock implements Node {
-  Content: string
+  Content: string;
   constructor({ Content }: { Content: string }) {
-    super()
-    this.Content = Content
+    super();
+    this.Content = Content;
   }
   Type(): NodeType {
     return NodeType.MathBlockNode;
@@ -182,14 +182,14 @@ export class MathBlock extends BaseBlock implements Node {
 }
 
 export class Table extends BaseBlock implements Node {
-  Header: string[]
-  Delimiter: string[]
-  Rows: string[][]
+  Header: string[];
+  Delimiter: string[];
+  Rows: string[][];
   constructor({ Header, Delimiter, Rows }: { Header: string[]; Delimiter: string[]; Rows: string[][] }) {
-    super()
-    this.Header = Header
-    this.Delimiter = Delimiter
-    this.Rows = Rows
+    super();
+    this.Header = Header;
+    this.Delimiter = Delimiter;
+    this.Rows = Rows;
   }
   Type(): NodeType {
     return NodeType.TableNode;
@@ -199,28 +199,28 @@ export class Table extends BaseBlock implements Node {
     for (const h of this.Header) {
       headerResult += `| ${h} `;
     }
-    let delimiterResult = "";
+    const delimiterResult = "";
     for (const d of this.Delimiter) {
       headerResult += `| ${d} `;
     }
     const rowResult = [];
-    for(let i = 0; i < this.Rows.length; i++) {
+    for (let i = 0; i < this.Rows.length; i++) {
       const cellResult = [];
-      for(const cell of this.Rows[i]) {
-        cellResult.push(`| ${cell} `)
+      for (const cell of this.Rows[i]) {
+        cellResult.push(`| ${cell} `);
       }
-      cellResult.push("|")
-      rowResult.push(cellResult.join(""))
+      cellResult.push("|");
+      rowResult.push(cellResult.join(""));
     }
     return [headerResult, delimiterResult, rowResult.join("\n")].join("|\n");
   }
 }
 
 export class EmbeddedContent extends BaseBlock implements Node {
-  ResourceName: string
-  Params: string = ""
+  ResourceName: string;
+  Params: string = "";
   constructor({ ResourceName, Params = "" }: { ResourceName: string; Params?: string }) {
-    super()
+    super();
     this.ResourceName = ResourceName;
     this.Params = Params;
   }
@@ -231,4 +231,3 @@ export class EmbeddedContent extends BaseBlock implements Node {
     return `![[${this.ResourceName}${this.Params ? `?${this.Params}` : ""}]]`;
   }
 }
-
