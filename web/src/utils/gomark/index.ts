@@ -1,14 +1,18 @@
+import { convertFromASTNodes, convertToASTNodes, Node } from "./node";
 import { Parse as ParseUtil } from "./parse/parse";
 import { Tokenize } from "./parse/tokenizer";
-import { Restore } from "./restore/restore";
+import { Restore as RestoreUtil } from "./restore/restore";
 
 export function Parse(content: string) {
   const tokens = Tokenize(content);
   const [nodes, error] = ParseUtil(tokens);
-  return error ? [] : nodes;
+  return error ? [] : convertFromASTNodes(nodes);
 }
 
-export { Restore };
+export function Restore(nodes: Node[]) {
+  const astNodes = convertToASTNodes(nodes);
+  return RestoreUtil(astNodes);
+}
 
 export function WebAssemblyOnError() {
   window.parse = Parse;
