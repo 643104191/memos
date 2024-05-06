@@ -4,7 +4,7 @@ export class BaseInline extends BaseNode {}
 
 export class Text extends BaseInline implements Node {
   Content: string;
-  constructor({ Content = "" }: { Content: string }) {
+  constructor({ Content = "" }: { Content?: string } = {}) {
     super();
     this.Content = Content;
   }
