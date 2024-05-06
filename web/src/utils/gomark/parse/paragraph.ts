@@ -15,7 +15,7 @@ export class ParagraphParser {
     }
 
     const [children, err] = ParseInline(matchedTokens);
-    if (err) {
+    if (err !== null) {
       return [null, 0];
     }
     return [
