@@ -1,4 +1,4 @@
-import { Node } from "../utils/gomark/ast/ast";
+import { Node } from "../utils/gomark/node";
 
 declare class Go {
   argv: string[];
