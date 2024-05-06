@@ -3,7 +3,7 @@ import * as AstBlock from "./ast/block";
 import * as AstInline from "./ast/inline";
 
 export interface Node {
-  type: NodeType
+  type: NodeType;
   value:
     | LineBreakNode
     | ParagraphNode
@@ -34,145 +34,144 @@ export interface Node {
     | SubscriptNode
     | SuperscriptNode
     | ReferencedContentNode
-    | SpoilerNode
+    | SpoilerNode;
 }
 
 interface LineBreakNode {}
 
 interface ParagraphNode {
-  children: Node[]
-};
+  children: Node[];
+}
 
 interface CodeBlockNode {
-  language: string
-  content: string
-};
+  language: string;
+  content: string;
+}
 
 interface HeadingNode {
-  level: number
-  children: Node[]
-};
+  level: number;
+  children: Node[];
+}
 
 interface HorizontalRuleNode {
-  symbol: string
-};
+  symbol: string;
+}
 
 interface BlockquoteNode {
-  children: Node[]
-};
+  children: Node[];
+}
 
 interface OrderedListNode {
-  number: string
-  indent: number
-  children: Node[]
-};
+  number: string;
+  indent: number;
+  children: Node[];
+}
 
 interface UnorderedListNode {
-  symbol: string
-  indent: number
-  children: Node[]
-};
+  symbol: string;
+  indent: number;
+  children: Node[];
+}
 
 interface TaskListNode {
-  symbol: string
-  indent: number
-  complete: boolean
-  children: Node[]
-};
+  symbol: string;
+  indent: number;
+  complete: boolean;
+  children: Node[];
+}
 
 interface MathBlockNode {
-  content: string
-};
-
+  content: string;
+}
 
 interface TableRowNode {
-  cells: string[]
+  cells: string[];
 }
 
 interface TableNode {
-  header: string[]
-  delimiter: string[]
-  rows: TableRowNode[]
+  header: string[];
+  delimiter: string[];
+  rows: TableRowNode[];
 }
 
 interface EmbeddedContentNode {
-  resourceName: string
-  params: string
+  resourceName: string;
+  params: string;
 }
 
 interface TextNode {
-  content: string
+  content: string;
 }
 
 interface BoldNode {
-  symbol: string
-  children: Node[]
+  symbol: string;
+  children: Node[];
 }
 
 interface ItalicNode {
-  symbol: string
-  content: string
+  symbol: string;
+  content: string;
 }
 
 interface BoldItalicNode {
-  symbol: string
-  content: string
+  symbol: string;
+  content: string;
 }
 
 interface CodeNode {
-  content: string
+  content: string;
 }
 
 interface ImageNode {
-  altText: string
-  url: string
+  altText: string;
+  url: string;
 }
 
 interface LinkNode {
-  text: string
-  url: string
+  text: string;
+  url: string;
 }
 
 interface AutoLinkNode {
-  url: string
-  isRawText: boolean
+  url: string;
+  isRawText: boolean;
 }
 
 interface TagNode {
-  content: string
+  content: string;
 }
 
 interface StrikethroughNode {
-  content: string
+  content: string;
 }
 
 interface EscapingCharacterNode {
-  symbol: string
+  symbol: string;
 }
 
 interface MathNode {
-  content: string
+  content: string;
 }
 
 interface HighlightNode {
-  content: string
+  content: string;
 }
 
 interface SubscriptNode {
-  content: string
+  content: string;
 }
 
 interface SuperscriptNode {
-  content: string
+  content: string;
 }
 
 interface ReferencedContentNode {
-  resourceName: string
-  params: string
+  resourceName: string;
+  params: string;
 }
 
 interface SpoilerNode {
-  content: string
+  content: string;
 }
 
 export function convertFromASTNodes(rawNodes: AstNode[]): Node[] {
@@ -336,24 +335,24 @@ export function convertFromASTNode(node: AstNode): Node {
 }
 
 export function convertToASTNode(rawNodes: Node): AstNode {
-  const nodeValue = rawNodes.value
+  const nodeValue = rawNodes.value;
   switch (rawNodes.type) {
     case NodeType.LineBreakNode:
       return new AstBlock.LineBreak();
     case NodeType.ParagraphNode:
       return new AstBlock.Paragraph({
         Children: convertToASTNodes((nodeValue as ParagraphNode).children),
-      })
+      });
     case NodeType.CodeBlockNode:
       return new AstBlock.CodeBlock({
         Language: (nodeValue as CodeBlockNode).language,
         Content: (nodeValue as CodeBlockNode).content,
-      })
+      });
     case NodeType.HeadingNode:
       return new AstBlock.Heading({
         Level: (nodeValue as HeadingNode).level,
         Children: convertToASTNodes((nodeValue as HeadingNode).children),
-      })
+      });
     case NodeType.HorizontalRuleNode:
       return new AstBlock.HorizontalRule({
         Symbol: (nodeValue as HorizontalRuleNode).symbol,
@@ -361,30 +360,30 @@ export function convertToASTNode(rawNodes: Node): AstNode {
     case NodeType.BlockquoteNode:
       return new AstBlock.Blockquote({
         Children: convertToASTNodes((nodeValue as BlockquoteNode).children),
-      })
+      });
     case NodeType.OrderedListNode:
       return new AstBlock.OrderedList({
         Number: (nodeValue as OrderedListNode).number,
         Indent: (nodeValue as OrderedListNode).indent,
         Children: convertToASTNodes((nodeValue as OrderedListNode).children),
-      })
+      });
     case NodeType.UnorderedListNode:
       return new AstBlock.UnorderedList({
         Symbol: (nodeValue as UnorderedListNode).symbol,
         Indent: (nodeValue as UnorderedListNode).indent,
         Children: convertToASTNodes((nodeValue as UnorderedListNode).children),
-      })
+      });
     case NodeType.TaskListNode:
       return new AstBlock.TaskList({
         Symbol: (nodeValue as TaskListNode).symbol,
         Indent: (nodeValue as TaskListNode).indent,
         Complete: (nodeValue as TaskListNode).complete,
         Children: convertToASTNodes((nodeValue as TaskListNode).children),
-      })
+      });
     case NodeType.MathBlockNode:
       return new AstBlock.MathBlock({
         Content: (nodeValue as MathBlockNode).content,
-      })
+      });
     case NodeType.TableNode: {
       const rows: string[][] = [];
       for (const row of (nodeValue as TableNode).rows) {
@@ -394,13 +393,13 @@ export function convertToASTNode(rawNodes: Node): AstNode {
         Header: (nodeValue as TableNode).header,
         Delimiter: (nodeValue as TableNode).delimiter,
         Rows: rows,
-      })
+      });
     }
     case NodeType.EmbeddedContentNode:
       return new AstBlock.EmbeddedContent({
         ResourceName: (nodeValue as EmbeddedContentNode).resourceName,
         Params: (nodeValue as EmbeddedContentNode).params,
-      })
+      });
     case NodeType.TextNode:
       return new AstInline.Text({
         Content: (nodeValue as TextNode).content,
@@ -423,59 +422,59 @@ export function convertToASTNode(rawNodes: Node): AstNode {
     case NodeType.CodeNode:
       return new AstInline.Code({
         Content: (nodeValue as CodeNode).content,
-      })
+      });
     case NodeType.ImageNode:
       return new AstInline.Image({
         AltText: (nodeValue as ImageNode).altText,
         URL: (nodeValue as ImageNode).url,
-      })
+      });
     case NodeType.LinkNode:
       return new AstInline.Link({
         Text: (nodeValue as LinkNode).text,
         URL: (nodeValue as LinkNode).url,
-      })
+      });
     case NodeType.AutoLinkNode:
       return new AstInline.AutoLink({
         URL: (nodeValue as AutoLinkNode).url,
         IsRawText: (nodeValue as AutoLinkNode).isRawText,
-      })
+      });
     case NodeType.TagNode:
       return new AstInline.Tag({
         Content: (nodeValue as TagNode).content,
-      })
+      });
     case NodeType.StrikethroughNode:
       return new AstInline.Strikethrough({
         Content: (nodeValue as StrikethroughNode).content,
-      })
+      });
     case NodeType.EscapingCharacterNode:
       return new AstInline.EscapingCharacter({
         Symbol: (nodeValue as EscapingCharacterNode).symbol,
-      })
+      });
     case NodeType.MathNode:
       return new AstInline.Math({
         Content: (nodeValue as MathNode).content,
-      })
+      });
     case NodeType.HighlightNode:
       return new AstInline.Highlight({
         Content: (nodeValue as HighlightNode).content,
-      })
+      });
     case NodeType.SubscriptNode:
       return new AstInline.Subscript({
         Content: (nodeValue as SubscriptNode).content,
-      })
+      });
     case NodeType.SuperscriptNode:
       return new AstInline.Superscript({
         Content: (nodeValue as SuperscriptNode).content,
-      })
+      });
     case NodeType.ReferencedContentNode:
       return new AstInline.ReferencedContent({
         ResourceName: (nodeValue as ReferencedContentNode).resourceName,
         Params: (nodeValue as ReferencedContentNode).params,
-      })
+      });
     case NodeType.SpoilerNode:
       return new AstInline.Spoiler({
         Content: (nodeValue as SpoilerNode).content,
-      })
+      });
     default:
       return new AstInline.Text();
   }

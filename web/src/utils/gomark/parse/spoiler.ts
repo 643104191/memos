@@ -3,7 +3,7 @@ import { Spoiler } from "../ast/inline";
 import { TokenType, Token, Stringify, GetFirstLine } from "./tokenizer";
 
 export function NewSpoilerParser(): SpoilerParser {
-  return new SpoilerParser()
+  return new SpoilerParser();
 }
 
 export class SpoilerParser {
